@@ -1,0 +1,50 @@
+import pandas as pd
+import matplotlib.pyplot as plt
+
+# Simulated mock data
+mock_tweets = [
+    "Great day for $AAPL!",
+    "I'm not sure about investing in $AAPL now.",
+    "The latest news on $AAPL is promising.",
+    "AAPL stock is falling, not good for investors.",
+    "Thinking of buying some $AAPL shares.",
+    "I sold all my $AAPL stocks today.",
+    "AAPL seems to be stabilizing after the recent drop.",
+    "Investors are optimistic about $AAPL's future."
+]
+
+mock_sentiment_scores = [
+    {'compound': 0.8},  # positive
+    {'compound': -0.4},  # negative
+    {'compound': 0.6},  # positive
+    {'compound': -0.7},  # negative
+    {'compound': 0.5},  # positive
+    {'compound': -0.8},  # negative
+    {'compound': 0.2},  # neutral
+    {'compound': 0.7}  # positive
+]
+
+# Convert mock sentiment scores into a DataFrame
+df = pd.DataFrame(mock_sentiment_scores)
+
+# Classify sentiment
+def classify_sentiment(compound):
+    if compound >= 0.05:
+        return 'positive'
+    elif compound <= -0.05:
+        return 'negative'
+    else:
+        return 'neutral'
+
+df['sentiment'] = df['compound'].apply(classify_sentiment)
+
+# Display the DataFrame with sentiment analysis results
+print(df)
+
+# Plot the sentiment distribution
+sentiment_distribution = df['sentiment'].value_counts()
+plt.bar(sentiment_distribution.index, sentiment_distribution.values)
+plt.xlabel('Sentiment')
+plt.ylabel('Count')
+plt.title('Sentiment Analysis of Mock Tweets')
+plt.show()
